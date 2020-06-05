@@ -20,11 +20,19 @@ const PLAYERS = [
     // "Vader",
     // "Slingo"
 ];
-
+let i=1 ;
 // Player Class
 class Player {
+   
     constructor(id, name, type) {
         // Create member variables and assign values
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.image = `images/super-${i}.png`;
+        i = (i)%3+1;
+        console.log(`${this.image}`)
+        this.strength = this.getRandomStrength(); 
         // Type your code
 
     }
@@ -38,8 +46,23 @@ class Player {
     view = () => {
         // Accumulate HTML template
         // Type your code here
-
-    
+      //  let player = document.createElement('div');
+     //   player.data.id = ;
+        let div1 ,div2,image;
+        let player = document.createElement(`div`);
+        player.className = `player`;
+        player.dataset.id = `${this.id}`;
+        image = document.createElement(`img`);
+        image.src = `${this.image}`;
+        div1 = document.createElement(`div`);
+        div1.className = `name`;
+        div1.textContent = `${this.name}`;
+        div2 = document.createElement(`div`);
+        div2.className = `strength`;
+        div2.textContent = `${this.strength}`;
+        player.appendChild(image);
+        player.appendChild(div1);
+        player.appendChild(div2);
         return player;
     }
 }
@@ -48,9 +71,15 @@ class Player {
 class Superwar {
     constructor(players) {
     // Create a field players 
+    this.players = players.map(function (name ,index){
+        if(index%2)
+        return new Player(index+1 ,name ,`villain`);
+        else
+        return new Player(index+1 ,name ,`hero`);
+    });
     // Use Map method to loop through players argument and create new players
     // Type your code here
-
+    //return newplayers;
     }
 
     // Display players in HTML
@@ -82,5 +111,6 @@ class Superwar {
 
 window.onload = () => {
     const superwar = new Superwar(PLAYERS);
+
     superwar.viewPlayers();
 }
